@@ -13,8 +13,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========数组 Array==========")
 	// aboutArray()
 
-	fmt.Println("==========切片 Slice==========")
-	aboutSlice()
+	// fmt.Println("==========切片 Slice==========")
+	// aboutSlice()
+
+	fmt.Println("==========指针==========")
+	aboutPointer()
 }
 
 

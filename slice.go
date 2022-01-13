@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func aboutSlice() {
@@ -15,6 +16,8 @@ func aboutSlice() {
     5. 切片的定义：var 变量名 []类型，比如 var str []string 、 var arr []int。
     6. 如果 slice == nil，那么 len、cap 结果都等于 0。
 	*/
+
+	// golang slice data[:6:8] 两个冒号的理解：a[x:y:z] 切片内容 [x:y] 切片长度: y-x 切片容量:z-x
 
 	// 0.数组与切片区别
 	diff()
@@ -42,6 +45,18 @@ func aboutSlice() {
 
 	// 8.切片resize（调整大小）
 	resizeSlice()
+
+	// 9.字符串和切片
+	stringAndSlice()
+
+	// 10. golang slice data[:6:8] 两个冒号的理解
+	testMuli()
+
+	// 11.数组or切片转字符串：
+	arrayOrSliceToString()
+
+	// 12.Slice底层实现
+	sliceBase()
 }
 
 // 0.数组与切片区别
@@ -294,4 +309,137 @@ func resizeSlice() {
 
 	c := b[0:3]
 	fmt.Printf("slice c : %v，len(c) : %v\n", c, len(c))
+}
+
+// 9.字符串和切片
+func stringAndSlice() {
+	fmt.Println("===字符串和切片===")
+	// string底层就是一个byte的数组，因此，也可以进行切片操作。
+	str := "abcdefghijk"
+	s1 := str[0:5]
+	fmt.Println(s1)
+
+	s2 := str[6:]
+	fmt.Println(s2)
+
+
+	// string本身是不可变的，因此要改变string中的字符。需要如下操作： 
+
+	// 9.1 英文字符串
+	fmt.Println("===英文字符串 []byte(str)===")
+	str1 := "Hello world"
+	s := []byte(str1)	// 中文字符需要用 []rune(str)
+	s[6] = 'G'
+	s = s[:8]
+	s = append(s, '~')
+	str1 = string(s)
+	fmt.Printf("str1 = %v\n", str1)
+
+	// 9.2 含有中文字符串
+	fmt.Println("===含有中文字符串  []rune(str)===")
+	str3 := "你好，世界！hello world！"
+	s3 := []rune(str3) // 含有中文的字符串，需要用 `[]rune(str)` 处理
+	s3[3] = '够'
+	s3[4] = '浪'
+	s3[12] = 'g'
+
+	s3 = s3[:14]
+	str3 = string(s3)
+	fmt.Printf("str3 = %v\n", str3)
+}
+
+// 10. golang slice data[:6:8] 两个冒号的理解
+func testMuli() {
+	fmt.Println("===两个冒号的理解===")
+
+	slice := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+    d1 := slice[6:8]
+	fmt.Printf("d1=%v，len(d1)=%v，cap(d1)=%v\n", d1, len(d1), cap(d1))
+
+	// len = 6 - 0;  cap = 8 - 0
+	d2 := slice[:6:8]
+    fmt.Println(d2, len(d2), cap(d2))
+	fmt.Printf("d2=%v，len(d2)=%v，cap(d2)=%v\n", d2, len(d2), cap(d2))
+}
+
+// 11.数组or切片转字符串：
+func arrayOrSliceToString() {
+	slice := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	str := strings.Replace(strings.Trim(fmt.Sprint(slice), "[]"), " ", "~", -1)
+	fmt.Printf("str = %v\n", str)
+
+	// 关于 Replace 参数解释
+	// 参考：https://www.cnblogs.com/haima/p/12697644.html
+}
+
+
+// 12.Slice底层实现
+func sliceBase() {
+	fmt.Println("===Slice底层实现===")
+	// 关于切片和数组怎么选择？
+	// 在 Go 中，与 C 数组变量隐式作为指针使用不同，Go 数组是值类型，赋值和函数传参操作都会复制整个数组数据。
+
+	arrayA := [2]int{100, 200}
+	var arrayB [2]int
+
+	// Go数组是值类型，赋值操作会赋值整个数组的数据
+	arrayB = arrayA
+
+	// arrayA 与 arrayB 地址不同
+	fmt.Printf("arrayA: %p，%v\n", &arrayA, arrayA)
+	fmt.Printf("arrayB: %p，%v\n", &arrayB, arrayB)
+
+	testArray(arrayA)
+
+
+	/*
+	打印结果：
+		arrayA: 0xc0000c0650，[100 200]
+		arrayB: 0xc0000c0660，[100 200]
+		func Array: 0xc0000c0690 , [100 200]
+	三个数组的内存地址都不同。这样就验证了 Go语言的数组赋值和函数传参都是值赋值的。这样导致什么问题❓❓❓
+
+	问题：
+	假想每次传参都用数组，那么每次数组都要被复制一遍。如果数组大小有 100万，在64位机器上就需要花费大约 800W 字节，即 8MB 内存。这样会消耗掉大量的内存。于是乎有人想到，函数传参用数组的指针。
+	*/
+
+
+	// 扩容是否生成新数组
+	growSlice()
+}
+
+func testArray(x [2]int) {
+	fmt.Printf("func Array: %p , %v\n", &x, x)
+}
+
+// 扩容是否生成新数组
+func growSlice() {
+	fmt.Println("===扩容是否生成新数组===")
+
+	array := [4]int{10, 20, 30, 40}
+    slice := array[0:2]
+    newSlice := append(slice, 50)
+
+    fmt.Printf("Before slice = %v, Pointer = %p, len = %d, cap = %d\n", slice, &slice, len(slice), cap(slice))
+    fmt.Printf("Before newSlice = %v, Pointer = %p, len = %d, cap = %d\n", newSlice, &newSlice, len(newSlice), cap(newSlice))
+
+    newSlice[1] += 10
+
+    fmt.Printf("After slice = %v, Pointer = %p, len = %d, cap = %d\n", slice, &slice, len(slice), cap(slice))
+    fmt.Printf("After newSlice = %v, Pointer = %p, len = %d, cap = %d\n", newSlice, &newSlice, len(newSlice), cap(newSlice))
+    fmt.Printf("After array = %v\n", array)
+
+	/*
+	Before slice = [10 20], Pointer = 0xc0000b4420, len = 2, cap = 4
+	Before newSlice = [10 20 50], Pointer = 0xc0000b4438, len = 3, cap = 4
+
+	After slice = [10 30], Pointer = 0xc0000b4420, len = 2, cap = 4
+	After newSlice = [10 30 50], Pointer = 0xc0000b4438, len = 3, cap = 4
+
+	After array = [10 30 50 40]		// 数组 array 的值也被影响了。
+	*/
+
+
+
+
 }

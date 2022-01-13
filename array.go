@@ -63,12 +63,9 @@ func aboutArray() {
 	fmt.Printf("numsCount=%d\n", numsCount)
 	fmt.Printf("numsCount2=%d\n", numsCount2)
 
-	// 指针数组 [n]*T，数组指针 *[n]T。
-	// 数组指针：首先是一个指针，一个数组的地址
-	// 指针数组：首先是一个数组，存储的数据类型是指针
+	// 数组指针：*[n]T，首先是一个指针，一个数组的地址
+	// 指针数组：[n]*T，首先是一个数组，存储的数据类型是指针
 	// 参考：https://blog.csdn.net/weixin_40123451/article/details/122092190
-
-
 
 	// 多维数组
 	a := [2][3]int{{1, 2, 3}, {4, 5, 6}}

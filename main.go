@@ -16,8 +16,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========切片 Slice==========")
 	// aboutSlice()
 
-	fmt.Println("==========指针==========")
-	aboutPointer()
+	// fmt.Println("==========指针==========")
+	// aboutPointer()
+
+	fmt.Println("==========Map==========")
+	aboutMap()
 }
 
 

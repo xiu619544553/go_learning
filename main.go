@@ -19,8 +19,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========指针==========")
 	// aboutPointer()
 
-	fmt.Println("==========Map==========")
-	aboutMap()
+	// fmt.Println("==========Map==========")
+	// aboutMap()
+
+	fmt.Println("==========struct==========")
+	aboutStruct()
 }
 
 

@@ -28,8 +28,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========流程控制==========")
 	// aboutFlow()
 
-	fmt.Println("==========函数==========")
-	aboutFunction()
+	// fmt.Println("==========函数==========")
+	// aboutFunction()
+
+	fmt.Println("==========闭包==========")
+	aboutClosure()
 }
 
 

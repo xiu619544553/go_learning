@@ -25,8 +25,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========struct==========")
 	// aboutStruct()
 
-	fmt.Println("==========流程控制==========")
-	aboutFlow()
+	// fmt.Println("==========流程控制==========")
+	// aboutFlow()
+
+	fmt.Println("==========函数==========")
+	aboutFunction()
 }
 
 

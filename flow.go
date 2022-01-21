@@ -103,11 +103,41 @@ func aboutFor() {
 func aboutRange() {
 	fmt.Println("===range===")
 
+	/*
+	for range 可以遍历数组、切片、字符串、map 及通道（channel）。一般形式如下：
+
+	for key, val := range coll {
+    	...
+	}
+
+	注意：val 始终为集合中对应索引的值拷贝，因此它一般只具有只读性质，对它所做的任何修改都不会影响到集合中原有的值。一个循环中，val的地址不会发生变化。
+	*/ 
+
+
 	// range 会复制对象
 	// 验证
 	a := [3]int{1, 2, 3}
+
+	fmt.Printf("a[0]地址：%p\n", &a[0])
+	fmt.Printf("a[1]地址：%p\n", &a[1])
+	fmt.Printf("a[2]地址：%p\n", &a[2])
+
+	/*
+	输出日志：
+		a[0]地址：0xc0000140c0
+		a[1]地址：0xc0000140c8
+		a[2]地址：0xc0000140d0
+		index=0，value=1，index地址：0xc000016078，value地址：0xc0000160b0
+		index=1，value=2，index地址：0xc000016078，value地址：0xc0000160b0
+		index=2，value=3，index地址：0xc000016078，value地址：0xc0000160b0
+
+	结论：for.range，会拷贝一份 a，index、value是新的变量，接收备份中的值
+	*/
+
 	for index, value := range a { // index、value都是从复制品中取出
-		
+
+		fmt.Printf("index=%d，value=%d，index地址：%p，value地址：%p\n", index, value, &index, &value)
+
 		if index == 0 {
 			a[1], a[2] = 999, 999
 			fmt.Printf("确认修改是否有效：%v\n", a) // 确认修改是否有效：[1 999 999]
@@ -125,18 +155,43 @@ func aboutRange() {
 
 		a[index] = value + 100 // 使用复制品中取出的 value 修改原数组
 	}
-
+	
 	fmt.Printf("a = %v\n", a) // a = [101 102 103]
 
 
 	// 推荐使用引用类型：其底层数据不会被复制
 	s := []int{1, 2, 3, 4, 5}
+	fmt.Printf("s地址：%p\n", &s)
+	fmt.Printf("s[0]地址：%p\n", &s[0])
+	fmt.Printf("s[1]地址：%p\n", &s[1])
+	fmt.Printf("s[2]地址：%p\n", &s[2])
+	fmt.Printf("s[3]地址：%p\n", &s[3])
+	fmt.Printf("s[4]地址：%p\n", &s[4])
+
+	/*
+	输出内容：
+		s[0]地址：0xc00012a000
+		s[1]地址：0xc00012a008
+		s[2]地址：0xc00012a010
+		s[3]地址：0xc00012a018
+		s[4]地址：0xc00012a020
+		index=0，value=1，index地址：0xc000114008，value地址：0xc000114040
+		index=1，value=2，index地址：0xc000114008，value地址：0xc000114040
+		index=2，value=3，index地址：0xc000114008，value地址：0xc000114040
+		index=3，value=4，index地址：0xc000114008，value地址：0xc000114040
+		index=4，value=5，index地址：0xc000114008，value地址：0xc000114040
+
+	*/
+
 	for index, value := range s {
 		
+		// fmt.Printf("index=%d，value=%d，index地址：%p，value地址：%p\n", index, value, &index, &value)
+
 		if index == 0 {
 			s = s[:3] 				// 对 slice 的修改，不会影响 range。
 			fmt.Printf("s=%v\n", s) // s=[1 2 3]
 			s[2] = 100 				// 对底层数据的修改。
+			fmt.Printf("s地址：%p\n", &s)
 		}
 
 		fmt.Printf("index=%v，value=%v\n", index, value)

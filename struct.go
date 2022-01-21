@@ -18,7 +18,7 @@ func aboutStruct() {
 	// 1.类型别名和自定义类型
 	aboutType()
 	
-	// 2.结构体
+	// 2.结构体 - 基本实例化
 	aboutMyStruct()
 
 	// 3.指针类型结构体
@@ -135,6 +135,7 @@ func aboutPtrStruct() {
 
 // 4. 结构体初始化
 func aboutStructInit() {
+	// 只有当结构体实例化时，才会真正地分配内存。也就是必须实例化后才能使用结构体的字段。
 	// 4.1 使用键值对初始化
 	p4 := person{
 		name: "Rose",

@@ -31,8 +31,14 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("==========函数==========")
 	// aboutFunction()
 
-	fmt.Println("==========闭包==========")
-	aboutClosure()
+	// fmt.Println("==========闭包==========")
+	// aboutClosure()
+
+	fmt.Println("========== defer 延迟调用 ==========")
+	aboutDefer()
+
+	// fmt.Println("========== 闭包，Defer，参数传递，变量作用域 ==========")
+	// aboutDeferClosure()
 }
 
 

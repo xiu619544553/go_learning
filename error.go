@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -34,9 +35,26 @@ func aboutError() {
 	// errorTest1()
 
 	// 向已关闭的通道发送数据，引发 panic
-	errorTest2()
-}
+	// errorTest2()
 
+	// 延迟调用中引发的错误，可被后续延迟调用捕获，但仅最后一个错误可被捕获。
+	// errorTest3()
+
+	// 捕获函数 recover 只有在延迟调用内直接调用才会终止错误，否则总是返回 nil。任何未捕获的错误都会沿调用堆栈向外传递。
+	// errorTest4()
+
+	// 使用延迟匿名函数或下面这样都是有效的。
+	// errorTest5()
+
+	// 如果需要保护代码段，可以将代码跨重构成匿名函数，如此可以保证后续代码被执行
+	// errorTest6()
+
+	// 除用 panic 引发中断性错误外，还可返回 error 类型错误对象来表示函数调用状态。
+	// errorTest7()
+
+	// Go实现类似 try catch 的异常处理
+	errorTest8()
+}
 
 func errorTest1() {
 	defer func() {
@@ -48,7 +66,6 @@ func errorTest1() {
 	
 	panic("panic error!")	
 }
-
 
 // 向已关闭的通道发送数据，引发 panic
 func errorTest2() {
@@ -65,5 +82,110 @@ func errorTest2() {
 	ch <- 1
 }
 
+// 延迟调用中引发的错误，可被后续延迟调用捕获，但仅最后一个错误可被捕获。
+func errorTest3() {
+	defer func ()  {
+		fmt.Println(recover()) // defer panic
+	}()
+
+	defer func ()  {
+		panic("defer panic")
+	}()
+
+	panic("test panic")
+}
+
+// 捕获函数 recover 只有在延迟调用内直接调用才会终止错误，否则总是返回 nil。任何未捕获的错误都会沿调用堆栈向外传递。
+func errorTest4() {
+	defer func ()  {
+		fmt.Println(recover()) // 有效：可以捕捉到 panic
+	}()
+
+	defer recover() // 无效：无法捕捉到 panic
+	defer fmt.Println(recover()) // 无效：无法捕捉到 panic
+
+	defer func ()  {
+		func ()  {
+			fmt.Println("defer inner")
+			recover() // 无效，无法捕捉 panic
+		}()		
+	}()
+
+	panic("test panic")
+}
+
+// 使用延迟匿名函数或下面这样都是有效的。
+func errorTest5() {
+	defer errorTest5Except()
+	panic("test5 panic")
+}
+
+func errorTest5Except() {
+	fmt.Println(recover())
+}
+
+// 如果需要保护代码段，可以将代码跨重构成匿名函数，如此可以保证后续代码被执行
+func errorTest6() {
+	errorTest6IMP(2, 1)
+}
+
+func errorTest6IMP(x, y int) {
+	var z int = 1
+
+    func() {
+        defer func() {
+            if recover() != nil {
+                z = 0
+            }
+        }()
+        panic("test panic")
+        z = x / y
+        return
+    }()
+
+    fmt.Printf("x / y = %d\n", z)
+}
 
 
+// 除用 panic 引发中断性错误外，还可返回 error 类型错误对象来表示函数调用状态。
+
+func errorTest7() {
+	defer func ()  {
+		fmt.Println(recover())
+	}()
+
+	switch z, err := errorTest7IMP(10, 0); err {
+	case nil:
+		println(z)
+	case ErrDivByZero:
+		panic(err)
+	}
+}
+
+var ErrDivByZero = errors.New("division by zero")
+
+func errorTest7IMP(x, y int) (int, error) {
+	if y == 0 {
+		return 0, ErrDivByZero
+	}
+	return x/y, nil
+}
+
+// Go实现类似 try catch 的异常处理
+
+func errorTest8() {
+	Try(func ()  {
+		panic("模拟 panic")
+	}, func (err interface{})  {
+		fmt.Println(err)
+	})
+}
+
+func Try(fun func(), handler func(interface{})) {
+	defer func () {
+		if err := recover(); err != nil {
+			handler(err)
+		}
+	}()
+	fun()
+}

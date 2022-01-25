@@ -53,7 +53,10 @@ func aboutError() {
 	// errorTest7()
 
 	// Go实现类似 try catch 的异常处理
-	errorTest8()
+	// errorTest8()
+
+	// 自定义error
+	errorTest9()
 }
 
 func errorTest1() {
@@ -188,4 +191,14 @@ func Try(fun func(), handler func(interface{})) {
 		}
 	}()
 	fun()
+}
+
+
+/*===================================================*/
+//                    自定义 error                     /
+/*===================================================*/
+
+
+func errorTest9() {
+
 }

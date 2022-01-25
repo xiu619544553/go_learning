@@ -40,11 +40,11 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== 闭包，Defer，参数传递，变量作用域 ==========")
 	// aboutDeferClosure()
 
-	// fmt.Println("========== 异常处理 ==========")
-	// aboutError()
+	fmt.Println("========== 异常处理 ==========")
+	aboutError()
 
-	fmt.Println("========== 方法 ==========")
-	aboutMethod()
+	// fmt.Println("========== 方法 ==========")
+	// aboutMethod()
 }
 
 

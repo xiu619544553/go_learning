@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
+	"time"
 )
 
 // 异常处理
@@ -56,7 +58,10 @@ func aboutError() {
 	// errorTest8()
 
 	// 自定义error
-	errorTest9()
+	// errorTest9()
+
+	// 自定义 error
+	errorTest10()
 }
 
 func errorTest1() {
@@ -195,10 +200,88 @@ func Try(fun func(), handler func(interface{})) {
 
 
 /*===================================================*/
+//                 系统抛异常和自己抛异常                 /
+/*===================================================*/
+
+// 系统抛异常和自己抛异常
+func errorTest9() {
+
+	// 捕获异常
+	defer func ()  {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	
+	// 分别注释下面的函数，defer 会捕捉到异常
+
+	// 系统抛异常
+	systemError()
+
+	// 自己抛异常
+	area := getCircleArea(-1)
+	fmt.Printf("area：%v\n", area)
+}
+
+func systemError() {
+	a := [5]int{0, 1, 2, 3, 4}
+	a[1] = 123
+	fmt.Println(a)
+
+	//a[10] = 11
+	index := 10
+	a[index] = 10
+	fmt.Println(a)
+}
+
+func getCircleArea(radius float32) (area float32) {
+	if radius < 0 {
+	   // 自己抛
+	   panic("半径不能为负")
+	}
+	return 3.14 * radius * radius
+ }
+
+
+/*===================================================*/
 //                    自定义 error                     /
 /*===================================================*/
 
-
-func errorTest9() {
-
+type PathError struct {
+    path       string
+    op         string
+    createTime string
+    message    string
 }
+
+func (p *PathError) Error() string {
+    return fmt.Sprintf("path=%s \nop=%s \ncreateTime=%s \nmessage=%s", p.path,
+        p.op, p.createTime, p.message)
+}
+
+func Open(filename string) error {
+
+    file, err := os.Open(filename)
+    if err != nil {
+		// 此处为何可以返回 &PathError？？？？？？
+        return &PathError{
+            path:       filename,
+            op:         "read",
+            message:    err.Error(),
+            createTime: fmt.Sprintf("%v", time.Now()),
+        }
+    }
+
+    defer file.Close()
+    return nil
+}
+
+ func errorTest10() {
+	err := Open("/Users/hello/Desktop/testt.txt")
+    switch v := err.(type) {
+    case *PathError:
+        fmt.Println("get path error,", v)
+    default:
+		fmt.Println("默认")
+    }
+ }

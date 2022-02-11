@@ -49,12 +49,9 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== 面向对象--接口 ==========")
 	// aboutInterface()
 
-	fmt.Println("========== http编程 ==========")
-	aboutHttp()
+	// fmt.Println("========== http编程 ==========")
+	// aboutHttp()
+
+	fmt.Println("========== goroutine ==========")
+	aboutGoRoutine()	
 }
-
-
-
-
-
-

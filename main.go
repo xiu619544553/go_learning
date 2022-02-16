@@ -60,4 +60,7 @@ func main () {  // 声明 main 主函数
 
 	fmt.Println("========== 无缓冲的通道（unbuffered channel） ==========")
 	aboutUnBufferedChannel()
+
+	// fmt.Println("=== 字符串处理 ===")
+	// aboutStrings()
 }

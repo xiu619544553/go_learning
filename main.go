@@ -58,12 +58,15 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== channel ==========")
 	// aboutChannel()
 
-	fmt.Println("========== 无缓冲的通道（unbuffered channel） ==========")
-	aboutUnBufferedChannel()
+	// fmt.Println("========== 无缓冲的通道（unbuffered channel） ==========")
+	// aboutUnBufferedChannel()
 
 	// fmt.Println("=== 字符串处理 ===")
 	// aboutStrings()
 
-	fmt.Println("========== 带缓冲的通道（buffered channel） ==========")
-	aboutBufferedChan()
+	// fmt.Println("========== 带缓冲的通道（buffered channel） ==========")
+	// aboutBufferedChan()
+
+	fmt.Println("========== channel 超时机制 ==========")
+	aboutChanTimeout()
 }

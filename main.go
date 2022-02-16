@@ -67,6 +67,9 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== 带缓冲的通道（buffered channel） ==========")
 	// aboutBufferedChan()
 
-	fmt.Println("========== channel 超时机制 ==========")
-	aboutChanTimeout()
+	// fmt.Println("========== channel 超时机制 ==========")
+	// aboutChanTimeout()
+
+	fmt.Println("========== 多核并行化 ==========")
+	aboutConcurrent()
 }

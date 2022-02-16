@@ -63,4 +63,7 @@ func main () {  // 声明 main 主函数
 
 	// fmt.Println("=== 字符串处理 ===")
 	// aboutStrings()
+
+	fmt.Println("========== 带缓冲的通道（buffered channel） ==========")
+	aboutBufferedChan()
 }

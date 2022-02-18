@@ -73,9 +73,9 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== 多核并行化 ==========")
 	// aboutConcurrent()
 
-	// fmt.Println("========== 互斥锁和读写互斥锁 ==========")
-	// aboutLock()
+	fmt.Println("========== 互斥锁和读写互斥锁 ==========")
+	aboutLock()
 
-	fmt.Println("========== 等待组 ==========")
-	aboutWaitGroup()
+	// fmt.Println("========== 等待组 ==========")
+	// aboutWaitGroup()
 }

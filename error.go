@@ -92,11 +92,11 @@ func errorTest2() {
 
 // 延迟调用中引发的错误，可被后续延迟调用捕获，但仅最后一个错误可被捕获。
 func errorTest3() {
-	defer func ()  {
+	defer func () {
 		fmt.Println(recover()) // defer panic
 	}()
 
-	defer func ()  {
+	defer func () {
 		panic("defer panic")
 	}()
 
@@ -105,7 +105,7 @@ func errorTest3() {
 
 // 捕获函数 recover 只有在延迟调用内直接调用才会终止错误，否则总是返回 nil。任何未捕获的错误都会沿调用堆栈向外传递。
 func errorTest4() {
-	defer func ()  {
+	defer func () {
 		fmt.Println(recover()) // 有效：可以捕捉到 panic
 	}()
 
@@ -116,7 +116,7 @@ func errorTest4() {
 		func ()  {
 			fmt.Println("defer inner")
 			recover() // 无效，无法捕捉 panic
-		}()		
+		}()
 	}()
 
 	panic("test panic")

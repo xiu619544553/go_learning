@@ -1,10 +1,10 @@
-package main // 声明 main 包
+package main //  定义一个包，包名为 main，main 是可执行程序的包名。所有的 Go 源程序文件头部必须有一个包声明语句，Go 通过包来管理命名空间。
 
 import (
 	"fmt" // 导入 fmt 包，打印字符串是需要用到
 )
 
-func main () {  // 声明 main 主函数
+func main() { // 声明 main 主函数
 	fmt.Println("hello world!")
 
 	// fmt.Println("==========基本数据类型==========")
@@ -53,7 +53,7 @@ func main () {  // 声明 main 主函数
 	// aboutHttp()
 
 	// fmt.Println("========== goroutine ==========")
-	// aboutGoRoutine()	
+	// aboutGoRoutine()
 
 	// fmt.Println("========== channel ==========")
 	// aboutChannel()
@@ -82,6 +82,31 @@ func main () {  // 声明 main 主函数
 	// fmt.Println("========== 反射 reflect ==========")
 	// aboutReflect()
 
-	fmt.Println("========== Go语言结构体标签（Struct Tag）	==========")
-	aboutStructTag()
+	// fmt.Println("========== Go语言结构体标签（Struct Tag）	==========")
+	// aboutStructTag()
+
+
+	t := T{a: 1}
+	t.Get()
+	
+ 
+	(*T).Set(&t, 1)
+}
+
+
+type T struct {
+	a int
+}
+
+
+func (t *T)Set(i int) {
+	t.a = i
+}
+
+func (t T)Get() int {
+	return t.a
+}
+
+func (t *T) Print() {
+	fmt.Printf("%p，%v，%d\n", t, t, t.a)
 }

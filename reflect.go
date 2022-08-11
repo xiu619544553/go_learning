@@ -122,6 +122,10 @@ func aboutReflect() {
 	// reflect.Elem()
 	// 通过反射获取指针指向的元素类型
 	reflectTest8()
+
+
+	// 通过反射修改变量的值
+	reflectTest9()
 }
 
 type MyStruct struct {}
@@ -324,4 +328,13 @@ func reflectTest8() {
 
 	// 显示反射类型对象的名称和种类
     fmt.Printf("element name: '%v', element kind: '%v'\n", elem.Name(), elem.Kind())
+}
+
+
+// 通过反射修改变量的值
+func reflectTest9() {
+	fmt.Println("===通过反射修改变量的值===")
+
+	
+
 }

@@ -96,6 +96,14 @@ func aboutFor() {
 		n--
 		fmt.Printf("s[%v] = %c\n", n, s[n])
 	}
+
+	
+	// 这种写法等价于 C 语言的 while(1)
+	// for ; true; {
+
+	// } 		
+	
+
 }
 
 // range

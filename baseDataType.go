@@ -6,6 +6,11 @@ import (
 )
 
 func baseDataType() {
+
+	// 声明的布尔值变量，如不指定初始化值，则默认为 false
+	// var b bool
+	// fmt.Println("b =", b) // b = false
+
 	// 变量标准命名
 	// 行尾不需要分号
 	var age int = 10
@@ -161,4 +166,13 @@ func traversalString() {
 		fmt.Printf("%v，%v(%c)\n", index, r, r)
 	}
 	
+}
+
+// 复数
+func complex() {
+	// Go有三个内置函数处理复数
+	// var v = complex(2.1, 2)
+	// a := real(v)
+	// b := imag(v)
+	// fmt.Printf("%v, %v", a, b)
 }

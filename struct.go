@@ -102,6 +102,8 @@ func aboutMyStruct() {
 	user.name = "Tom"
 	user.age = 19
 	fmt.Printf("user = %#v\n", user)
+
+	
 }
 
 // 3.结构体指针
